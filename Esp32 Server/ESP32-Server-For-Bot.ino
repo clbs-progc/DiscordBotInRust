@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include <WiFi.h>
 #include <WebServer.h>
+#include <esp_wifi.h>
 
 
 #define uS_TO_mS_FACTOR 1000ULL  // Conversion factor for milliseconds to microseconds
@@ -48,8 +49,8 @@ void handleOff() {
 
 void setup() {
 
-  Serial.begin(115200);  
-  setCpuFrequencyMhz(80);
+  Serial.begin(115200); 
+  setCpuFrequencyMhz(80); 
   pinMode(2, OUTPUT);
   delay(1000);
   digitalWrite(2, LOW);
@@ -79,6 +80,7 @@ void setup() {
   server.on("/on", HTTP_GET, handleOn);
   server.on("/off", HTTP_GET, handleOff);
 
+  esp_wifi_set_ps(WIFI_PS_MAX_MODEM);
   server.begin();
 }
 
